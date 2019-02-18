@@ -59,9 +59,39 @@ where c.customer_id=o.customer_id
 and o.ord_date='2012-08-17'
 
 --11
+select s.name, s.salesman_id
+from salesman s
+where (select count(*) from customer c
+where c.salesman_id=s.salesman_id)>1
 
+--12
+select * from orders o
+where purch_amt>(select avg(purch_amt)
+from orders ord where
+ord.customer_id=o.customer_id)
 
+--14
+select o.ord_date,sum(o.purch_amt) 
+from orders o
+group by o.ord_date
+having sum(o.purch_amt)>(select 1000+
+max(purch_amt) from orders a
+where o.ord_date=a.ord_date)
 
+--15
+select * from customer 
+where exists(
+select * from customer where city='London'
+)
 
-
-
+--16
+SELECT * 
+FROM salesman 
+WHERE salesman_id IN (
+   SELECT DISTINCT salesman_id 
+   FROM customer a 
+   WHERE EXISTS (
+      SELECT * 
+      FROM customer b 
+      WHERE b.salesman_id=a.salesman_id 
+      AND b.cust_name<>a.cust_name));

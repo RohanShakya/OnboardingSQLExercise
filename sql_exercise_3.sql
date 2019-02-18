@@ -58,6 +58,8 @@ from customer c, orders o
 where c.customer_id=o.customer_id
 and o.ord_date='2012-08-17'
 
+--11
+
 
 
 
